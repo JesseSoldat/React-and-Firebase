@@ -35,7 +35,7 @@ var TodoList = _react2['default'].createClass({
         item.text,
         _react2['default'].createElement(
           'span',
-          {
+          { onClick: _this.props.removeItem.bind(null, item['.key']),
             style: { color: 'red', marginLeft: '10px', cursor: 'pointer' } },
           ' X '
         )
@@ -83,6 +83,11 @@ var App = _react2['default'].createClass({
     this.setState({ text: e.target.value });
   },
 
+  removeItem: function removeItem(key) {
+    var firebaseRef = _firebase2['default'].database().ref('todoApp/items');
+    firebaseRef.child(key).remove();
+  },
+
   render: function render() {
     return _react2['default'].createElement(
       'div',
@@ -97,7 +102,8 @@ var App = _react2['default'].createClass({
           'Add #' + (this.state.items.length + 1)
         )
       ),
-      _react2['default'].createElement(TodoList, { items: this.state.items })
+      _react2['default'].createElement(TodoList, { items: this.state.items,
+        removeItem: this.removeItem })
     );
   }
 });

@@ -19,7 +19,7 @@ var config = {
   			return(
   				<li key={index}>
   					{item.text}
-  					<span 
+  					<span onClick={_this.props.removeItem.bind(null, item['.key'])}
   					style={{color:'red', marginLeft:'10px', cursor:'pointer'}}> X </span>
   				</li>
   			); 	
@@ -63,7 +63,10 @@ var config = {
 
   	},
 
- 	
+ 	removeItem: function(key){
+ 		var firebaseRef = firebase.database().ref('todoApp/items');
+ 		firebaseRef.child(key).remove();
+ 	},
 
   
   render: function(){
@@ -72,9 +75,10 @@ var config = {
   				<input onChange={this.onChange} value={this.state.text} />
   				<button>{'Add #' + (this.state.items.length + 1)}</button>
   			</form>
-  			<TodoList items={this.state.items}>
-  			</TodoList>
 
+  			<TodoList items={this.state.items}
+  			removeItem={this.removeItem} />
+  			
   		</div>)
   }
 });

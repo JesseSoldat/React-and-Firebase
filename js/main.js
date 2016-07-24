@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import firebase from 'firebase';
 
 
-
 var config = {
     apiKey: "AIzaSyDrBaMFNOe8j8q22qg7uuPECOwqJAr27v8",
     authDomain: "reactfire-709f3.firebaseapp.com",

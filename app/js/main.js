@@ -23,6 +23,32 @@ var config = {
 };
 _firebase2['default'].initializeApp(config);
 
+var TodoList = _react2['default'].createClass({
+  displayName: 'TodoList',
+
+  render: function render() {
+    var _this = this;
+    var createItem = function createItem(item, index) {
+      return _react2['default'].createElement(
+        'li',
+        { key: index },
+        item.text,
+        _react2['default'].createElement(
+          'span',
+          {
+            style: { color: 'red', marginLeft: '10px', cursor: 'pointer' } },
+          ' X '
+        )
+      );
+    }; //createItem
+    return _react2['default'].createElement(
+      'ul',
+      null,
+      this.props.items.map(createItem)
+    );
+  } //render
+}); //TodoList
+
 var App = _react2['default'].createClass({
   displayName: 'App',
 
@@ -43,7 +69,7 @@ var App = _react2['default'].createClass({
   handleSubmit: function handleSubmit(e) {
     e.preventDefault();
     if (this.state.text && this.state.text.trim().length !== 0) {
-      console.log(this.state.text);
+
       this.firebaseRefs['items'].push({
         text: this.state.text
       });
@@ -68,9 +94,10 @@ var App = _react2['default'].createClass({
         _react2['default'].createElement(
           'button',
           null,
-          'Add #' + (this.state.items + 1)
+          'Add #' + (this.state.items.length + 1)
         )
-      )
+      ),
+      _react2['default'].createElement(TodoList, { items: this.state.items })
     );
   }
 });

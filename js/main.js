@@ -12,6 +12,21 @@ var config = {
   };
   firebase.initializeApp(config);
 
+  var TodoList = React.createClass({
+  	render: function(){
+  		var _this = this;
+  		var createItem = function(item, index){
+  			return(
+  				<li key={index}>
+  					{item.text}
+  					<span 
+  					style={{color:'red', marginLeft:'10px', cursor:'pointer'}}> X </span>
+  				</li>
+  			); 	
+  		}//createItem
+  		return <ul>{this.props.items.map(createItem)}</ul>;
+  	} //render
+  }); //TodoList
 
   var App = React.createClass({
   	mixins: [ReactFireMixin],
@@ -33,7 +48,7 @@ var config = {
   	handleSubmit: function(e){
   		e.preventDefault();
   		if(this.state.text && this.state.text.trim().length !== 0) {
-  			console.log(this.state.text);
+  			
   			this.firebaseRefs['items'].push({
   				text: this.state.text
   			});
@@ -55,8 +70,11 @@ var config = {
   	return(<div>
   			<form onSubmit={this.handleSubmit}>
   				<input onChange={this.onChange} value={this.state.text} />
-  				<button>{'Add #' + (this.state.items + 1)}</button>
+  				<button>{'Add #' + (this.state.items.length + 1)}</button>
   			</form>
+  			<TodoList items={this.state.items}>
+  			</TodoList>
+
   		</div>)
   }
 });

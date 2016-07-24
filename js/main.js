@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import firebase from 'firebase';
-import ReactFire from 'reactfire';
+
 
 
 var config = {
@@ -14,11 +14,41 @@ var config = {
 
 
   var App = React.createClass({
+  	mixins: [ReactFireMixin],
+  	
+
+  	getInitialState: function(){
+  		return {
+  			items: [],
+  			text: ''
+  		}
+  	},
+
+  	 componentWillMount: function() {
+    var firebaseRef = firebase.database().ref('todoApp/items');;
+    this.bindAsArray(firebaseRef.limitToLast(25), 'items');
+  },
+
+
+  	handleSubmit: function(){
+
+  	},
+
+  	onChange: function(e){
+  		this.setState({text: e.target.value});
+  		console.log(this.state.text);
+  	},
+
  	
- 	
+
   
   render: function(){
-  	return(<div>App</div>)
+  	return(<div>
+  			<form onSubmit={this.handleSubmit}>
+  				<input onChange={this.onChange} value={this.state.text} />
+  				<button>{'Add #' + (this.state.items + 1)}</button>
+  			</form>
+  		</div>)
   }
 });
 

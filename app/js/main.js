@@ -40,11 +40,21 @@ var App = _react2['default'].createClass({
     this.bindAsArray(firebaseRef.limitToLast(25), 'items');
   },
 
-  handleSubmit: function handleSubmit() {},
+  handleSubmit: function handleSubmit(e) {
+    e.preventDefault();
+    if (this.state.text && this.state.text.trim().length !== 0) {
+      console.log(this.state.text);
+      this.firebaseRefs['items'].push({
+        text: this.state.text
+      });
+      this.setState({
+        text: ''
+      });
+    }
+  },
 
   onChange: function onChange(e) {
     this.setState({ text: e.target.value });
-    console.log(this.state.text);
   },
 
   render: function render() {
